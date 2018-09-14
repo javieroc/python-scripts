@@ -1,0 +1,11 @@
+{
+  "lob": "",
+  "customer_id": "customer_id",
+  "order_id": "order_id",
+  "order_date": "order_date",
+  "product_id": "",
+  "sku": "sku_id",
+  "gross_total_value": "",
+  "gross_unit_value": "order_value",
+  "gross_unit_qty": "quantity"
+}
