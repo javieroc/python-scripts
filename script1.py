@@ -34,40 +34,58 @@ with open('before.csv') as csvfile:
       new_row = {}
 
       # Rules.
-      if row[loaded_json['customer_id']] in (None, ""): continue
-      if row[loaded_json['order_date']] in (None, ""): continue
-      if row[loaded_json['order_id']] in (None, ""): continue
+      if row[loaded_json['customer_id']] in (None, ''):
+        continue
+      else:
+        new_row['customer_id'] = row[loaded_json['customer_id']]
 
-      default_qty = 1
-      # Create new row.
-      for field in loaded_json:
-        if loaded_json[field] is not "":
+      if row[loaded_json['order_date']] in (None, ''):
+        continue
+      else:
+        new_row['order_date'] = row[loaded_json['order_date']]
 
-          if (row[loaded_json[field]] in (None, "")
-            and field == "gross_unit_qty"
-            and (row[loaded_json['sku']] in (None, "") or loaded_json['sku'] == "")
-            and (row[loaded_json['product_id']] in (None, "") or loaded_json['product_id'] == "")):
-            new_row["gross_unit_qty"] = default_qty
-            continue
+      if row[loaded_json['order_id']] in (None, ''):
+        continue
+      else:
+        new_row['order_id'] = row[loaded_json['order_id']]
 
-          if (field == "gross_total_value"
-            and row[loaded_json['gross_total_value']] in (None, "")
-            and row[loaded_json['gross_unit_value']] not in (None, "")):
-            new_row["gross_total_value"] = row[loaded_json['gross_unit_value']] * new_row["gross_unit_qty"]
-            continue
-
-          if (field == "gross_unit_value"
-            and row[loaded_json['gross_unit_value']] in (None, "")
-            and row[loaded_json['gross_total_value']] not in (None, "")):
-            new_row["gross_unit_value"] = row[loaded_json['gross_total_value']] / new_row["gross_unit_qty"]
-            continue
-
-          new_row[field] = row[loaded_json[field]]
+      if (loaded_json['lob'] is not ''):
+        if (row[loaded_json['lob']] in (None, '')):
+          continue
         else:
-          if field == "lob":
-            new_row["lob"] = "ALL"
-            continue
+          new_row['lob'] = row[loaded_json['lob']]
+      else:
+        new_row['lob'] = 'All'
 
-          new_row[field] = ""
+      if (loaded_json['gross_unit_qty'] is not '' and row[loaded_json['gross_unit_qty']] not in (None, '')):
+        new_row['gross_unit_qty'] = row[loaded_json['gross_unit_qty']]
+      else:
+        new_row['gross_unit_qty'] = 1
+
+      if (loaded_json['gross_total_value'] is not '' and row[loaded_json['gross_total_value']] not in (None, '')):
+        new_row['gross_total_value'] = row[loaded_json['gross_total_value']]
+      else:
+        if (loaded_json['gross_unit_value'] is not '' and row[loaded_json['gross_unit_value']] not in (None, '')):
+          new_row['gross_total_value'] = float(row[loaded_json['gross_unit_value']]) * int(new_row["gross_unit_qty"])
+        else:
+          continue
+
+      if (loaded_json['gross_unit_value'] is not '' and row[loaded_json['gross_unit_value']] not in (None, '')):
+        new_row['gross_unit_value'] = row[loaded_json['gross_unit_value']]
+      else:
+        if (loaded_json['gross_total_value'] is not '' and row[loaded_json['gross_total_value']] not in (None, '')):
+          new_row['gross_unit_value'] = float(row[loaded_json['gross_total_value']]) / int(new_row["gross_unit_qty"])
+        else:
+          continue
+
+      if (loaded_json['sku'] is not '' and row[loaded_json['sku']] not in (None, '')):
+        new_row['sku'] = row[loaded_json['sku']]
+      else:
+        new_row['sku'] = ''
+
+      if (loaded_json['product_id'] is not '' and row[loaded_json['product_id']] not in (None, '')):
+        new_row['product_id'] = row[loaded_json['product_id']]
+      else:
+        new_row['product_id'] = ''
 
       writer.writerow(new_row)
