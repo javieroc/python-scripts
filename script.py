@@ -90,7 +90,7 @@ def main():
           new_row['gross_total_value'] = row[loaded_json['gross_total_value']]
         else:
           if (loaded_json['gross_unit_value'] is not '' and row[loaded_json['gross_unit_value']] not in (None, '')):
-            new_row['gross_total_value'] = float(row[loaded_json['gross_unit_value']]) * int(new_row["gross_unit_qty"])
+            new_row['gross_total_value'] = float(row[loaded_json['gross_unit_value']]) * float(new_row["gross_unit_qty"])
           else:
             continue
 
@@ -98,7 +98,7 @@ def main():
           new_row['gross_unit_value'] = row[loaded_json['gross_unit_value']]
         else:
           if (loaded_json['gross_total_value'] is not '' and row[loaded_json['gross_total_value']] not in (None, '')):
-            new_row['gross_unit_value'] = float(row[loaded_json['gross_total_value']]) / int(new_row["gross_unit_qty"])
+            new_row['gross_unit_value'] = float(row[loaded_json['gross_total_value']]) / float(new_row["gross_unit_qty"])
           else:
             continue
 

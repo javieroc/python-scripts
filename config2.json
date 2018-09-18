@@ -1,0 +1,11 @@
+{
+  "customer_id": "customer_id",
+  "order_date": "order_created_at",
+  "order_id": "order_id",
+  "gross_unit_qty": "qty_ordered",
+  "gross_total_value": "",
+  "gross_unit_value": "price",
+  "product_id": "product_id",
+  "sku": "sku",
+  "lob": "customer_group_code"
+}
